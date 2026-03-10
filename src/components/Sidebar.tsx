@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "vehicles", label: "Vehicles", icon: Car },
     { id: "bookings", label: "Bookings", icon: CalendarRange },
-    { id: "customers", label: "Customers", icon: Users },
+    { id: "customers", label: "Users", icon: Users },
     { id: "payments", label: "Payments", icon: CreditCard },
     { id: "settings", label: "Settings", icon: Settings },
   ];
