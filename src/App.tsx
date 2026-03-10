@@ -10,8 +10,8 @@ import Header from "./components/Header";
 import Dashboard from "./components/Dashboard";
 import VehicleList from "./components/VehicleList";
 import BookingList from "./components/BookingList";
-import CustomerList from "./components/CustomerList";
 import PaymentList from "./components/PaymentList";
+import UserList from "./components/UserList";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -25,7 +25,7 @@ export default function App() {
       case "bookings":
         return <BookingList />;
       case "customers":
-        return <CustomerList />;
+        return <UserList />;
       case "payments":
         return <PaymentList />;
       case "settings":
