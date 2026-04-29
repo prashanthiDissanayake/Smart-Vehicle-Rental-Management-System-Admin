@@ -38,7 +38,7 @@ export default function App() {
     email: string;
     role: string;
   } | null>(null);
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("vehicles");
   const [selectedReturnBookingId, setSelectedReturnBookingId] = useState<
     string | null
   >(null);
@@ -581,7 +581,18 @@ export default function App() {
           </div>
         );
       default:
-        return <Dashboard />;
+        return <VehicleList
+            vehicles={vehicles}
+            bookings={bookings}
+            users={users}
+            onAdd={handleAddVehicle}
+            onUpdate={handleUpdateVehicle}
+            onDelete={handleDeleteVehicle}
+            onInitiateReturn={(bookingId) => {
+              setSelectedReturnBookingId(bookingId);
+              setActiveTab("returns");
+            }}
+          />;
     }
   };
 
