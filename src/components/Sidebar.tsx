@@ -19,7 +19,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    // { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "vehicles", label: "Vehicles", icon: Car },
     { id: "bookings", label: "Bookings", icon: CalendarRange },
     { id: "returns", label: "Returns", icon: RotateCcw },
