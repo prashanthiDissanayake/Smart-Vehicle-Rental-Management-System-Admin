@@ -21,6 +21,7 @@ const UserList: React.FC<UserListProps> = ({ users, onAdd, onUpdate, onDelete })
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [search,setSearch] = useState("")
 
   const handleOpenDetails = (user: User) => {
     setSelectedUser(user);
@@ -41,6 +42,21 @@ const UserList: React.FC<UserListProps> = ({ users, onAdd, onUpdate, onDelete })
       setSelectedUser(null);
     }
   };
+
+  const filteredUsers = Array.isArray(users)
+  ? users.filter((user) => {
+      const searchText = search.toLowerCase();
+
+      return (
+        user.name?.toLowerCase().includes(searchText) ||
+        user.email?.toLowerCase().includes(searchText) ||
+        user.phone?.toLowerCase().includes(searchText) ||
+        user.role?.toLowerCase().includes(searchText) ||
+        user.status?.toLowerCase().includes(searchText)
+      );
+    })
+  : [];
+
 
   const roleColors = {
     Admin: "bg-purple-50 text-purple-700 border-purple-100",
@@ -73,14 +89,15 @@ const UserList: React.FC<UserListProps> = ({ users, onAdd, onUpdate, onDelete })
               type="text" 
               placeholder="Search users by name, email..." 
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 transition-all"
+              value={search}
+          onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="flex gap-2">
-            <select className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 outline-none">
-              <option>All Roles</option>
+            <select value={search}
+              onChange={(e) => setSearch(e.target.value)} className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 outline-none">
+              <option value={""}>All Roles</option>
               <option>Admin</option>
-              <option>Manager</option>
-              <option>Staff</option>
               <option>Customer</option>
             </select>
           </div>
@@ -99,7 +116,7 @@ const UserList: React.FC<UserListProps> = ({ users, onAdd, onUpdate, onDelete })
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {Array.isArray(users) && users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr 
                   key={user.id} 
                   onClick={() => handleOpenDetails(user)}
