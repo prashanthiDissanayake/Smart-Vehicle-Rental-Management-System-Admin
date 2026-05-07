@@ -163,7 +163,6 @@ const PaymentList: React.FC<PaymentListProps> = ({
             >
               <option>All Methods</option>
               <option>Credit Card</option>
-              <option>PayPal</option>
               <option>Bank Transfer</option>
               <option>Cash</option>
             </select>
