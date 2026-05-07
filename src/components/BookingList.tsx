@@ -22,7 +22,7 @@ const BookingList: React.FC<BookingListProps> = ({ bookings, vehicles, users, on
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-
+  const [search,setSearch] = useState("")
   const getVehicle = (id: string) => vehicles.find(v => v.id === id);
   const getUser = (id: string) => users.find(u => u.id === id);
 
@@ -61,6 +61,16 @@ const BookingList: React.FC<BookingListProps> = ({ bookings, vehicles, users, on
     }
   };
 
+  const filteredBookings = Array.isArray(bookings)
+  ? bookings.filter((bookings) => {
+      const searchText = search.toLowerCase();
+
+      return (
+        bookings.status?.toLowerCase().includes(searchText)
+      );
+    })
+  : [];
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -89,12 +99,22 @@ const BookingList: React.FC<BookingListProps> = ({ bookings, vehicles, users, on
               type="text" 
               placeholder="Search by booking ID, user..." 
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500/20 transition-all"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="flex gap-2">
             <button className="px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50">
               All Status
             </button>
+             <select value={search}
+              onChange={(e) => setSearch(e.target.value)} className="flex-1 sm:flex-none px-4 py-2 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 outline-none">
+              <option value={""}>All Types</option>
+              <option>Completed</option>
+              <option>Confirmed</option>
+              <option>Pending</option>
+              <option>Cancelled</option>
+            </select>
           </div>
         </div>
 
@@ -112,7 +132,7 @@ const BookingList: React.FC<BookingListProps> = ({ bookings, vehicles, users, on
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {Array.isArray(bookings) && bookings.map((booking) => {
+              {filteredBookings.map((booking) => {
                 const vehicle = getVehicle(booking.vehicleId);
                 const user = getUser(booking.userId);
                 
